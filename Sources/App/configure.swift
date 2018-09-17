@@ -29,5 +29,21 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     var migrations = MigrationConfig()
     migrations.add(model: Todo.self, database: .sqlite)
     services.register(migrations)
+    
+    // Create a new NIO websocket server
+    let wss = NIOWebSocketServer.default()
+    
+    // Add WebSocket upgrade support to GET /echo
+    wss.get("echo") { ws, req in
+        // Add a new on text callback
+        ws.onText { ws, text in
+            debugPrint("[IN_MESSAGE: \(text)]")
+            // Simply echo any received text
+            ws.send(text)
+        }
+    }
+    
+    // Register our server
+    services.register(wss, as: WebSocketServer.self)
 
 }
