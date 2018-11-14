@@ -29,6 +29,5 @@ extension Todo: Parameter { }
 public class Singleton {
     static var shared: Singleton = Singleton()
     var socket: WebSocket!
-    var setFlag: Bool = true
     
 }
