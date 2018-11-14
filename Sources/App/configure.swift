@@ -37,7 +37,7 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     wss.get("echo") { ws, req in
         // Add a new on text callback
         ws.onText { ws, text in
-            if text.contains("iOS") || text.contains("ProfilePicture") {
+            if text.contains("iOS") {
                 Singleton.shared.socket = ws
                 
             }
