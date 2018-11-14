@@ -35,11 +35,20 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     
     // Add WebSocket upgrade support to GET /echo
     wss.get("echo") { ws, req in
+        if Singleton.shared.setFlag {
+            Singleton.shared.setFlag = false
+            Singleton.shared.socket = ws
+            
+        }
         // Add a new on text callback
         ws.onText { ws, text in
             debugPrint("[IN_MESSAGE: \(text)]")
             // Simply echo any received text
             ws.send(text)
+            if let socket = Singleton.shared.socket as WebSocket? {
+                socket.send(text)
+                
+            }
         }
     }
     
