@@ -43,10 +43,12 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
             }
             debugPrint("[IN_MESSAGE: \(text)]")
             // Simply echo any received text
-            ws.send(text)
             if let socket = Singleton.shared.socket as WebSocket? {
                 socket.send(text)
                 
+            } else {
+                ws.send(text)
+
             }
         }
     }
