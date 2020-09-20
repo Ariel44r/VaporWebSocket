@@ -9,8 +9,11 @@ func routes(_ app: Application) throws {
         return "Hello, world!"
     }
 
-    app.get("feature0") { req -> String in
-        debugPrint(req.headers)
-        return "Por acá se regresan los headers:\n\n\n\n\n\n \(req.headers)"
+    app.get("feature0") { req -> [String] in
+        let date = Date()
+        debugPrint("")
+        debugPrint("[new Request at: \(date.description(with: .current))]")
+        let headerString: String = req.headers.map { "=> [\($0.name): \($0.value)]" }.reduce("", { $0 + $1 })
+        return ["\(headerString)"]
     }
 }
